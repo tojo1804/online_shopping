@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-q220ofzb*e5mj*9sn@e260ymkx0qfiyrdgnf576+=m3wfdg5d=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['online-shopping-84ba.onrender.com']
 CSRF_TRUSTED_ORIGINS=[]
 
 
