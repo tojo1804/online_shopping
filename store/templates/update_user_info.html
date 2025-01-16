@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1,user-scalable=no">
+    <title>User Info Form</title>
+    <style>
+        /* Style pour le body */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            min-height: 100vh; /* Hauteur minimale de 100% */
+            overflow-y: auto; /* Permet de faire défiler verticalement */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px; /* Pour éviter que le contenu touche les bords */
+        }
+
+        /* Conteneur principal du formulaire */
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 15px;
+            border: 3px solid #007bff; /* Bordure colorée */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Ombre pour un effet 3D */
+            padding: 20px 30px;
+            position: relative;
+        }
+
+        /* Décor : cercle derrière le conteneur */
+        .container::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #007bff, #00bcd4);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .container::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #ff4081, #ff9800);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* Bouton Retour */
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            font-size: 14px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* En-tête */
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-header h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .form-header p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .form-header .icon {
+            font-size: 40px;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        /* Champs de formulaire */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+
+
+
+
+
+        /*autre shipping
+        /* Style pour le titre */
+        .billing-title {
+            font-size: 1.5em;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block; /* Assure que le titre prend toute la largeur */
+        }
+
+        /* Conteneur pour le formulaire */
+        .billing-container {
+            background-color: #f9f9f9; /* Couleur d'arrière-plan douce */
+            border: 1px solid #ddd; /* Bordure légère */
+            padding: 15px; /* Espacement intérieur */
+            border-radius: 8px; /* Coins arrondis */
+            max-width: 600px; /* Largeur maximale */
+            margin: 10px 0; /* Espacement autour */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+        }
+
+        /* Style pour les éléments du formulaire (optionnel) */
+        .billing-container input,
+        .billing-container select,
+        .billing-container textarea {
+            width: 100%; /* Prend toute la largeur */
+            padding: 10px; /* Espacement interne */
+            margin-bottom: 10px; /* Espacement entre les champs */
+            border: 1px solid #ccc; /* Bordure douce */
+            border-radius: 5px; /* Coins arrondis */
+            box-sizing: border-box; /* Inclut le padding dans la largeur */
+        }
+
+        .billing-container button {
+            background-color: #007BFF; /* Couleur de fond pour les boutons */
+            color: #fff; /* Texte blanc */
+            padding: 10px 15px; /* Espacement intérieur */
+            border: none; /* Pas de bordure */
+            border-radius: 5px; /* Coins arrondis */
+            cursor: pointer; /* Curseur interactif */
+            font-size: 1em; /* Taille du texte */
+        }
+
+        .billing-container button:hover {
+            background-color: #0056b3; /* Couleur plus sombre au survol */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* Bouton */
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #007bff, #00bcd4); /* Dégradé */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #0056b3, #008080); /* Changement de couleur au survol */
+        }
+
+        /* Footer */
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px 20px;
+            }
+            .form-header h2 {
+                font-size: 20px;
+            }
+            button {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Bouton Retour -->
+        <a href="/" class="back-button">← Back to Home</a>
+
+        <!-- En-tête avec icône -->
+        <div class="form-header">
+            <div class="icon">📄</div> <!-- Icône décorative -->
+            <h2>User Info Form</h2>
+            <p>Fill out the form below with your details</p>
+        </div>
+
+        <!-- Formulaire -->
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <strong class="billing-title">Adresse de facturation</strong>
+            <div class="billing-container">
+                {% csrf_token %}
+                {{ shipping_form.as_p }}
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="form-footer">
+            <p>Need assistance? Contact us at support@example.com</p>
+        </div>
+    </div>
+</body>
+</html>

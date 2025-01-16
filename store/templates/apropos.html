@@ -1,0 +1,169 @@
+{% extends 'index.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation de Texte</title>
+    <style>
+        /* Utilisation de la police FB Agency si elle est disponible */
+        @import url('https://fonts.googleapis.com/css2?family=Agency+FB&display=swap');
+
+        /* Style du conteneur pour le texte */
+        .container {
+            width: 100%;  /* 100% de la largeur de l'écran */
+            max-width: 1000px;  /* Limiter la largeur à 1000px sur les écrans larges */
+            text-align: justify;  /* Alignement justifié */
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ccc;
+            margin: 20px auto;
+        }
+
+        /* Style du texte dans le paragraphe */
+        p {
+            font-family: 'Agency FB', sans-serif;
+            font-size: 24px; /* Taille de la police augmentée */
+            line-height: 1.6;
+            white-space: normal; /* Permet le retour à la ligne */
+            word-wrap: break-word; /* Les mots longs seront coupés et passent à la ligne */
+            overflow: hidden;
+            margin: 0;
+            color: #333;
+        }
+
+        /* Style pour chaque caractère */
+        .letter {
+            opacity: 0;
+            display: inline-block;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Espace entre les mots */
+        .space {
+            display: inline-block;
+            width: 10px;
+        }
+
+        /* Ajouter des effets de survol */
+        .container:hover {
+            background-color: #f9f9f9;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Responsive Design : Adaptation aux écrans plus petits (smartphones) */
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;  /* Conteneur plus large sur les petits écrans */
+                padding: 15px;
+            }
+
+            p {
+                font-size: 18px; /* Réduire la taille de la police sur les petits écrans */
+            }
+        }
+
+    </style>
+</head>
+<body>
+<div class="content">
+        <h1>Bienvenue sur notre site de commerce de tojo</h1>
+        <p>Découvrez nos produits et services de qualité.</p>
+    </div>
+<div class="container">
+    <h1>Information:</h1>
+    <p id="text-container">
+        Bienvenue chez [TOJO] !
+
+Chez [tojo], nous sommes une entreprise dynamique et innovante, spécialisée dans la vente en ligne de produits de haute qualité. Nous mettons un point d'honneur à offrir à nos clients une expérience d'achat fluide, rapide et sécurisée, tout en proposant des produits de premier choix adaptés à tous les besoins.
+
+Notre objectif est de rendre votre expérience d'achat aussi agréable et simple que possible, en vous offrant des produits de qualité à des prix compétitifs. Que vous soyez à la recherche de produits électroniques, d'accessoires de mode, de produits pour la maison, ou encore de produits de santé et bien-être, nous avons tout ce qu'il vous faut !
+
+entreprise tojo est une entreprise innovante spécialisée dans la vente en ligne. Nous avons pour mission de rendre l'achat en ligne plus accessible et plus agréable pour tous. Grâce à notre plateforme facile à utiliser, nous proposons une large gamme de produits de qualité à des prix compétitifs, avec une livraison rapide et sécurisée.
+
+
+Notre équipe est composée de professionnels passionnés par la satisfaction client et l'innovation. Nous avons à cœur d'améliorer constamment notre service et de vous offrir une expérience d'achat sans pareil.
+
+Nous sommes fiers de notre réputation d'entreprise fiable, et nous nous efforçons chaque jour d'offrir à nos clients une expérience unique et mémorable.
+
+
+Vous avez des questions ? Vous souhaitez en savoir plus sur nos produits ou sur une commande ? Notre équipe est à votre disposition pour répondre à toutes vos demandes.
+Téléphone : 0348808498
+Email : tojoalbertophysicien@gmail.com
+
+    </p>
+</div>
+        
+ 
+
+    
+
+<script>
+    // Fonction d'animation de texte
+    function animateText(containerId) {
+        const textContainer = document.getElementById(containerId);
+        const text = textContainer.innerHTML; // Utiliser innerHTML pour garder les balises <br> intactes
+
+        // Vider le contenu du paragraphe pour le réinsérer caractère par caractère
+        textContainer.innerHTML = '';
+
+        // Temps d'intervalle entre chaque apparition de caractère (en millisecondes)
+        const intervalTime = 100; // 0.1 seconde pour une animation plus rapide
+
+        let currentIndex = 0;
+
+        // Fonction pour créer et afficher un caractère
+        function showNextLetter() {
+            if (currentIndex < text.length) {
+                const char = text[currentIndex];
+
+                // Créer un espace pour les mots
+                if (char === " ") {
+                    const space = document.createElement("span");
+                    space.classList.add("space");
+                    textContainer.appendChild(space);
+                } else if (char === "<") {
+                    // Si on rencontre une balise HTML, on saute jusqu'à la fin de la balise
+                    let tag = '';
+                    while (text[currentIndex] !== '>') {
+                        tag += text[currentIndex];
+                        currentIndex++;
+                    }
+                    tag += '>';
+                    const tagElement = document.createElement("span");
+                    tagElement.innerHTML = tag;
+                    textContainer.appendChild(tagElement);
+                } else {
+                    const letter = document.createElement("span");
+                    letter.classList.add("letter");
+                    letter.textContent = char;
+                    textContainer.appendChild(letter);
+                    setTimeout(() => {
+                        letter.style.opacity = 1;
+                    }, 50); // Un léger délai pour l'animation d'apparition
+                }
+
+                currentIndex++;
+            }
+        }
+
+        // Appeler la fonction `showNextLetter` à chaque intervalle
+        const interval = setInterval(() => {
+            showNextLetter();
+            if (currentIndex >= text.length) {
+                clearInterval(interval); // Arrêter l'intervalle lorsque tout le texte est affiché
+            }
+        }, intervalTime);
+    }
+
+    // Démarrer l'animation du texte
+    animateText('text-container');
+</script>
+
+</body>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,229 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+
+
+<section class="login-section">
+    <div class="container">
+        <h2>Connexion d'un client</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label for="username">Nom d'utilisateur :</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Se connecter</button>
+        </form>
+        
+        <!-- Bouton retour à l'accueil -->
+        <form action="{% url 'home' %}" method="get">
+            <button type="submit" class="back-home-btn">Retour à l'accueil</button>
+        </form>
+    </div>
+</section>
+<style type="text/css">
+/* Global */
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+/* Section de l'écran */
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0 10px;
+}
+
+/* Conteneur principal */
+.container {
+    background: #fff;
+    padding: 40px 30px; /* Augmenter le padding pour donner plus d'espace autour du formulaire */
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 450px; /* Garder la largeur max de la section */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    height: auto; /* Permet à la hauteur de s'adapter automatiquement */
+    min-height: 500px; /* Définit une hauteur minimale plus grande pour plus d'espace vertical */
+}
+
+/* Titre */
+h2 {
+    margin-bottom: 20px;
+    color: #6a11cb;
+    font-size: 32px; /* Agrandir la taille du titre */
+}
+
+/* Formulaire */
+form {
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 22px; /* Augmenter le padding pour rendre les champs plus grands */
+    margin-bottom: 25px; /* Augmenter la marge entre les champs */
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 18px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #6a11cb;
+    outline: none;
+}
+
+/* Boutons */
+button {
+    width: 100%;
+    padding: 22px; /* Augmenter la taille du bouton */
+    background-color: #6a11cb;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #4e0d8b;
+}
+
+.back-home-btn {
+    margin-top: 15px;
+    background-color: #ccc;
+    color: #333;
+    padding: 16px;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+.back-home-btn:hover {
+    background-color: #bbb;
+}
+
+/* Effet de brillance */
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+    animation: shine 2s infinite linear;
+    pointer-events: none;
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Responsive Design pour les écrans moyens (tablettes, petits écrans) */
+@media (max-width: 768px) {
+    .container {
+        padding: 50px 30px; /* Augmenter l'espace interne pour un meilleur espacement */
+        max-width: 100%;    /* Formulaire prend toute la largeur */
+        width: 100%;        /* Largeur flexible */
+        height: auto;       /* Hauteur flexible */
+        min-height: 550px;  /* Augmenter la hauteur min pour plus de confort */
+    }
+
+    h2 {
+        font-size: 30px; /* Agrandir légèrement la taille du titre */
+    }
+
+    label {
+        font-size: 18px;
+    }
+    
+    input[type="text"],
+    input[type="password"] {
+        padding: 22px;
+        font-size: 20px;
+    }
+    
+    button {
+        padding: 22px;
+        font-size: 20px;
+    }
+    
+    .back-home-btn {
+        font-size: 18px;
+        padding: 16px;
+    }
+}
+
+/* Responsive Design pour les petits écrans (smartphones) */
+@media (max-width: 480px) {
+    section {
+        padding: 0; /* Enlever le padding autour pour maximiser l'espace */
+    }
+
+    .container {
+        padding: 50px 25px; /* Augmenter le padding pour mieux occuper l'espace */
+        width: 100%;        /* Le formulaire prend toute la largeur */
+        max-width: 100%;    /* Ne pas limiter la largeur */
+        height: auto;       /* Hauteur flexible */
+        margin-top: 0;
+        margin-bottom: 0;
+        min-height: 500px;  /* Définit une hauteur minimale plus grande */
+    }
+
+    h2 {
+        font-size: 28px; /* Agrandir le titre pour une meilleure visibilité */
+    }
+
+    label {
+        font-size: 20px; /* Agrandir le texte des labels */
+    }
+    
+    input[type="text"],
+    input[type="password"] {
+        padding: 25px;  /* Augmenter le padding des champs de saisie */
+        font-size: 22px; /* Agrandir la taille des textes dans les champs */
+    }
+
+    button {
+        padding: 25px;
+        font-size: 22px; /* Agrandir la taille du bouton */
+    }
+
+    .back-home-btn {
+        font-size: 20px;
+        padding: 18px;
+    }
+}
+
+</style>

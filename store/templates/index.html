@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tojo shop</title>
+    <!-- Lien vers Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <!-- <link rel="stylesheet" href="style.css?v=12345"> -->
+
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <main>
+            {% block content %}{% endblock %}
+    </main>
+    <!-- Barre de recherche en haut -->
+    <div class="search-container">
+        <!-- Logo à gauche -->
+        <div class="logo-container">
+            <img src="{% static 'assets/logo.png' %}" alt="Logo">
+        </div>
+
+
+
+
+        <!-- Barre de recherche -->
+        <!-- <form method="POST" action="search_product">
+        <div class="search-box">
+            {% csrf_token %}
+            <input type="text" placeholder="Rechercher un produit..." name="searched">
+
+
+            <button type="submit">Rechercher</button>
+        </div>
+        </form> -->
+
+        <!-- resaka message -->
+        {% if messages %}
+        {% for message in messages %}
+        <div class="overlay" id="overlay"></div>
+
+        <div class="message-box" id="messageBox">
+        <p>{{ message }}</p>
+        <button class="close-btn" onclick="closeMessage()">Fermer</button>
+        {% endfor %}
+        </div>
+        {% endif %}
+        <!-- resake message -->
+
+
+        <div class="search-box">
+            {% csrf_token %}
+            <input type="text" name="searched" placeholder="Rechercher un produit...">
+            <button type="button" onclick="submitSearch()">Rechercher</button>
+        </div>
+
+        <!-- Icônes à droite de la barre -->
+        <div class="cart-user">
+            <!-- Icône Ordinateur -->
+            <i class="fas fa-laptop"></i>
+            <!-- Icône Téléphone -->
+
+            <i class="fas fa-phone-alt"></i>
+            <!-- Icône Livre -->
+            <i class="fas fa-book"></i>
+            <!-- Icône Email -->
+            <i class="fas fa-envelope"></i>
+        </div>
+        
+    </div>
+
+    
+
+   
+
+    
+    <!-- Ajoutez d'autres produits ici... -->
+
+<script src="{% static 'js/script.js' %}?v=1"></script>
+
+<!-- <script src="{% static 'js/script.js' %}"></script> -->
+<script>
+    function submitSearch() {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const searchValue = document.querySelector('input[name="searched"]').value;
+
+        if (searchValue.trim() === '') {
+            alert('Veuillez entrer un terme de recherche.');
+            return;
+        }
+
+        fetch('/search_product', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': csrfToken
+            },
+            body: new URLSearchParams({ searched: searchValue })
+        })
+        .then(response => response.text())
+        .then(html => {
+            document.body.innerHTML = html; // Remplacez cette ligne si vous souhaitez mettre à jour une partie spécifique du DOM.
+        })
+        .catch(error => console.error('Erreur lors de la recherche :', error));
+    }
+</script>
+
+
+<!-- reasaka sms  -->
+<script>
+    function closeMessage() {
+        document.getElementById('messageBox').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+</script>
+<!-- reaska smas -->
+
+<!-- css mikasika ny sms -->
+<style>
+    .message-box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color: white;
+        border: 2px solid black;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        width: 300px;
+        text-align: center;
+        border-radius: 8px;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+
+    .close-btn {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+</style>
+<!-- sms sy ny tontolony -->
+
+
+
+</body>
+</html>

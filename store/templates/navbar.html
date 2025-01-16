@@ -1,0 +1,133 @@
+{% load static %}
+{% block content %}
+<!-- Barre de navigation -->
+    <header class="navbar">
+        <div class="menu">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'category_rehetra' %}">all categories</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Categorie existant</a>
+                <div class="dropdown-menu">
+                    <a href="{% url 'category_page' 'Ordinateur' %}">Ordinateur</a>
+                    <a href="{% url 'category_page' 'Smart-phone' %}">Smart Phone</a>
+                    <a href="{% url 'category_page' 'Vestimentaire' %}">Vestimentaire</a>
+                </div>
+ 
+            </div>
+        {% if user.is_authenticated %}
+            <a href="{% url 'disconnect' %}">Deconnecter</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Utilisateur</a>
+                <div class="dropdown-menu">
+                    <a href="{% url 'update_user' %}">Modifier info</a>
+                    <a href="{% url 'update_info' %}">Modifier profile</a>
+                </div>
+            </div>
+
+            {% if user.is_superuser %}
+            <a href="{% url 'product_stats' %}">courbe</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Colis</a>
+                <div class="dropdown-menu">
+                    <a href="{% url 'shipped_dash' %}">Envoyé</a>
+                    <a href="{% url 'not_shipped_dash' %}">Non envoyé</a>
+                </div>
+            </div>
+            {% else %}
+            {% endif %}
+        {% else %}
+            <a href="{% url 'login_user'%}">Se connecter</a>
+            <a href="{% url 'register_user' %}">Créer un compte</a>
+        {% endif %}
+            <a href="{% url 'apropos' %}">À propos</a>
+
+            <form>
+            <div class="cart-icon">
+                <a href="{% url 'cart_summary' %}">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="badge" id="cart_quantity">{{cart|length}}</span>
+                </a>
+            </div>
+            </form>
+
+            <div class="dropdown">
+                {% if messages %}
+                <a href="#" class="dropbtn">Notification:{{messages|length}}</a>
+                {% endif %}
+                <div class="dropdown-menu">
+                    {% if messages %}
+                    {% for message in messages %}
+                        <a href="#">{{message}}</a>
+                    {% endfor %}
+                    {% else %}
+                    no messagez
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Menu Hamburger -->
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+        <!-- Menu mobile -->
+        <div class="menu-mobile">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'category_rehetra' %}">all categories</a>
+            <!-- <a href="#produit">Produit</a> -->
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Categorie existant</a>
+                <div class="dropdown-menu">
+                    <a href="{% url 'category_page' 'Ordinateur' %}">Ordinateur</a>
+                    <a href="{% url 'category_page' 'Smart-phone' %}">Smart Phone</a>
+                    <a href="{% url 'category_page' 'livre' %}">Livre</a>
+                    <a href="{% url 'category_page' 'Vestimentaire' %}">Vestimentaire</a>
+                </div>
+            </div>
+            {% if user.is_authenticated %}
+                <a href="{% url 'disconnect' %}">Deconnecter</a>
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">Utilisateur</a>
+                    <div class="dropdown-menu">
+                        <a href="{% url 'update_user' %}">Modifier info</a>
+                        <a href="{% url 'update_info' %}">Modifier profile</a>
+                    </div>
+                </div>
+                {% if user.is_superuser %}
+                <a href="{% url 'product_stats' %}">courbe</a>
+                <div class="dropdown">
+                <a href="#" class="dropbtn">Colis</a>
+                <div class="dropdown-menu">
+                    <a href="{% url 'shipped_dash' %}">Envoyé</a>
+                    <a href="{% url 'not_shipped_dash' %}">Non envoyé</a>
+                </div>
+                </div>
+                {% else %}
+                {% endif %}
+            {% else %}
+                <a href="{% url 'login_user' %}">Se connecter</a>
+                <a href="{% url 'register_user' %}">Créer un compte</a>
+            {% endif %}
+            <a href="{% url 'apropos' %}">À propos</a>
+
+            <form>
+            <div class="cart-icon">
+                <a href="{% url 'cart_summary' %}">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="badge" id="cart_quantity">{{cart|length}}</span>
+                </a>
+            </div>
+            </form>
+            
+
+
+            
+        </div>
+    </header>
+
+{% endblock %}

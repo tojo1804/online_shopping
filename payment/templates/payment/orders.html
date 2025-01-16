@@ -1,0 +1,165 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<style>
+    /* Style global */
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    /* Style de la section */
+    .cadre-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh; /* Hauteur minimale pour s'adapter à l'écran */
+        background-color: #eaeaea;
+        margin: 20px auto; /* Espace autour de la section */
+        padding: 20px;
+    }
+
+    /* Style du cadre */
+    .cadre {
+        background-color: #ffffff;
+        border: 2px solid #4CAF50;
+        border-radius: 10px;
+        padding: 20px;
+        width: 70%;
+        max-width: 800px; /* Largeur maximale pour éviter un cadre trop large */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: left; /* Alignement des textes */
+    }
+
+    /* Style des éléments internes */
+    .cadre .titre {
+        font-size: 2rem;
+        color: #333333;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .cadre .sous-titre {
+        font-size: 1.5rem;
+        color: #555555;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .cadre .paragraphe {
+        font-size: 1rem;
+        color: #666666;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .cadre button {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+        color: #fff;
+        background-color: #007BFF;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .cadre button:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+    .cadre button:active {
+        background-color: #004085;
+        transform: scale(0.95);
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .cadre {
+            width: 90%;
+        }
+        .cadre .titre {
+            font-size: 1.6rem;
+        }
+        .cadre .sous-titre {
+            font-size: 1.2rem;
+        }
+        .cadre .paragraphe {
+            font-size: 0.9rem;
+        }
+        .cadre button {
+            font-size: 0.9rem;
+            padding: 10px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .cadre {
+            padding: 15px;
+        }
+        .cadre .titre {
+            font-size: 1.4rem;
+        }
+        .cadre .sous-titre {
+            font-size: 1rem;
+        }
+        .cadre .paragraphe {
+            font-size: 0.8rem;
+        }
+        .cadre button {
+            font-size: 0.8rem;
+            padding: 8px;
+        }
+    }
+</style>
+<div class="content">
+        <h1>Procedure de payment</h1>
+        <p>Découvrez nos produits et services de qualité.</p>
+    </div>
+<section class="cadre-section">
+    <div class="cadre">
+        <h1 class="titre">Commande : {{ order.id }}</h1>
+        <h2 class="sous-titre">Prix : {{ order.amount_paid }} Ar</h2>
+        <p class="paragraphe">
+            Email : {{ order.email }}<br>
+            {% if order.date_shipped %}
+                Date d'envoi : {{ order.date_shipped }}<br>
+            {% else %}
+                Date de commande : {{ order.date_ordered }}<br>
+            {% endif %}
+            <br>
+            Nom : {{ order.full_name }}<br>
+            Adresse de facturation : {{ order.shipping_addresse }}
+        </p>
+        <br>
+        {% for item in items %}
+        <p class="paragraphe">
+            Produit : {{ item.product }}<br>
+            Quantité : {{ item.quantity }}<br>
+            Prix : {{ item.price }} Ar<br>
+        </p>
+        {% endfor %}
+        <br>
+        {% if not order.shipped %}
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="shipping_status" value="true">
+            <button type="submit">Envoyer la commande</button>
+        </form>
+        {% else %}
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="shipping_status" value="false">
+            <button type="submit">Annuler la commande</button>
+        </form>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

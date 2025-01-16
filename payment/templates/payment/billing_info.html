@@ -1,0 +1,241 @@
+{% extends 'index.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1, user-scalable=no">
+    <title>Vérification des Achats</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #19cd97;
+            color: #fff;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        form .form-group {
+            flex: 1 1 calc(50% - 20px); /* Half-width fields with spacing */
+            display: flex;
+            flex-direction: column;
+        }
+
+        form .form-group label {
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        form .form-group input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-group.full-width {
+            flex: 1 1 100%;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            form .form-group {
+                flex: 1 1 100%;
+            }
+
+            table, th, td {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Procedure de payment</h1>
+        <p>Découvrez nos produits et services de qualité.</p>
+    </div>
+    <div class="container">
+        <h1>Vérification des Achats</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom de Produit</th>
+                    <th>Information de Livraison</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                    {% for product in cart_products %}    
+                    produit:<strong>{{product.name}}</strong><br>
+                        {% if product.is_sale %}
+                            prix:{{product.sale_price}} AR
+                        {% else %}
+                            prix:{{product.price}} AR
+                        {% endif %}
+                        quantity:
+                            {% for key,value in quantities.items%}
+                                {% if key == product.id|slugify %}
+                                    {{ value}}
+                                {% endif %}
+                            {% endfor %}
+                    {% endfor %}
+                    <br><br>
+                    Total de tout produit:{{totals}} ar
+                    </td> 
+                    <td>
+                        Nom:{{shipping_info.shipping_full_name}}<br><hr>
+                        email:{{shipping_info.shipping_email}}<br><hr>
+                        Adresse:{{shipping_info.shipping_addresse}}<br><hr>
+                        Ville:{{shipping_info.shipping_city}}<br><hr>
+                        Code postale:{{shipping_info.shipping_city}}<br><hr>
+                        Téléphone:{{shipping_info.shipping_numberphone}}<br>
+                    </td> 
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="container">
+    <h1>Procedure de payment ou 0348808498</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom de Produit</th>
+                <th>Conseil: fenoy fotsiny na tsy manana aza</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    {% for product in cart_products %}    
+                    produit:<strong>{{product.name}}</strong><br>
+                        {% if product.is_sale %}
+                            prix:{{product.sale_price}} AR
+                        {% else %}
+                            prix:{{product.price}} AR
+                        {% endif %}
+                        quantité:
+                            {% for key,value in quantities.items %}
+                                {% if key == product.id|slugify %}
+                                    {{ value }}
+                                {% endif %}
+                            {% endfor %}
+                    {% endfor %}
+                    <br><br>
+                    Total de tout produit:{{totals}} AR
+                </td>
+                <td>
+                    <form method="post" action="{% url 'process_order' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="{{ billing_form.card_name.id_for_label }}">Nom de carte</label>
+                        {{ billing_form.card_name }}
+                        {% for error in billing_form.card_name.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ billing_form.card_number.id_for_label }}">Numéro de carte</label>
+                        {{ billing_form.card_number }}
+                        {% for error in billing_form.card_number.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ billing_form.card_exp_date.id_for_label }}">Date d'expiration</label>
+                        {{ billing_form.card_exp_date }}
+                        {% for error in billing_form.card_exp_date.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ billing_form.card_cvv.id_for_label }}">Carte CVV</label>
+                        {{ billing_form.card_cvv }}
+                        {% for error in billing_form.card_cvv.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ billing_form.card_adress.id_for_label }}">Adresse carte</label>
+                        {{ billing_form.card_adress }}
+                        {% for error in billing_form.card_adress.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ billing_form.number_phone.id_for_label }}">Numéro de téléphone</label>
+                        {{ billing_form.number_phone }}
+                        {% for error in billing_form.number_phone.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group full-width">
+                        <button type="submit" class="btn">PAYER</button>
+                    </div>
+                </form>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+   
+</body>
+</html>
+{% endblock %}

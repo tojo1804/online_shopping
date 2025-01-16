@@ -1,0 +1,260 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<style>
+  .product-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 20px;
+  }
+
+  .product {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #f9f9f9, #ffffff);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Container pour l'image et son aperçu */
+  .image-container {
+    position: relative;
+  }
+
+  .product-image {
+    width: 150px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+
+  .image-preview {
+    position: absolute;
+    top: 0;
+    left: 170px;
+    width: 300px;
+    height: auto;
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 10;
+  }
+
+  .image-preview .preview-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  /* Montrer l'aperçu au survol */
+  .image-container:hover .image-preview {
+    display: block;
+  }
+
+  .product-description {
+    flex: 1;
+  }
+
+  .product-description h2 {
+    margin: 0 0 10px;
+    font-size: 1.4rem;
+    color: #333;
+  }
+
+  .product-description p {
+    margin: 0 0 15px;
+    font-size: 1rem;
+    color: #555;
+  }
+
+  .product-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .quantity-select {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100px;
+    background: #f7f7f7;
+    cursor: pointer;
+  }
+
+  .product-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn.add-to-cart {
+    background: linear-gradient(135deg, #28a745, #218838);
+    color: white;
+  }
+
+  .btn.add-to-cart:hover {
+    background: linear-gradient(135deg, #34ce57, #28a745);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn.home {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+  }
+
+  .btn.home:hover {
+    background: linear-gradient(135deg, #339aff, #007bff);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (max-width: 768px) {
+    .product {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .product-image {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    .product-description {
+      text-align: center;
+    }
+
+    .product-actions {
+      align-items: center;
+    }
+
+    .product-buttons {
+      justify-content: center;
+    }
+
+    .image-preview {
+      left: auto;
+      top: 160px;
+    }
+  }
+</style>
+<script type="text/javascript" src="{% static 'js/tojo.js' %}"></script>
+<div class="content">
+        <h1>Bienvenue sur notre site de commerce de tojo</h1>
+        <p>Découvrez nos produits et services de qualité.</p>
+    </div>
+<section class="product-section">
+{% if product.is_sale %}
+  <div class="product">
+    <div class="image-container">
+      <img src="{{product.image.url}}" alt="Produit 1" class="product-image">
+      <div class="image-preview">
+        <img src="{{product.image.url}}" alt="Produit 1" class="preview-image">
+      </div>
+    </div>
+    <div class="product-description">
+      <h2>{{product.name}}</h2>
+      <p>{{product.description}}</p><br>
+      <p>{{product.price}} Ar</p><br>
+      Quantity:
+      <div class="product-actions">
+        <select class="quantity-select" id="qty-cart">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <div class="product-buttons">
+          <button type="button" class="btn add-to-cart" value="{{product.id}}" id="add-cart" >🛒 Add to Cart</button>
+          <button class="btn home" data-url="{% url 'home' %}" onclick="window.location.href=this.getAttribute('data-url');">🏠 Home</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% else %}
+<div class="product">
+    <div class="image-container">
+      <img src="{{product.image.url}}" alt="Produit 1" class="product-image">
+      <div class="image-preview">
+        <img src="{{product.image.url}}" alt="Produit 1" class="preview-image">
+      </div>
+    </div>
+    <div class="product-description">
+      <h2>{{product.name}}</h2>
+      <p>{{product.description}}</p>
+      <p>{{product.price}}</p>
+      <div class="product-actions">
+        <select class="quantity-select">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <div class="product-buttons">
+          <button class="btn add-to-cart">🛒 Add to Cart</button>
+          <button class="btn home">🏠 Home</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+</section>
+
+<script >
+  //check if button pressed 
+  $(document).on('click','#add-cart',function(e){
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: '{% url 'cart_add' %}',
+        data:{
+          product_id: $('#add-cart').val(),
+          product_qty: $('#qty-cart option:selected').text(),
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          action: 'post'
+        },
+        success: function(json){
+          // console.log(json)
+          document.getElementById('cart_quantity').textContent=json.qty
+        },
+        error: function(xhr, errmsg, err){
+
+        }
+
+      });
+
+
+  })
+
+</script>
+
+
+ 
+
+{% endblock %}

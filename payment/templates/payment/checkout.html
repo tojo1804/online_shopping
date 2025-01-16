@@ -1,0 +1,198 @@
+{% extends 'index.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1, user-scalable=no">
+    <title>Vérification des Achats</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #19cd97;
+            color: #fff;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        form .form-group {
+            flex: 1 1 calc(50% - 20px); /* Half-width fields with spacing */
+            display: flex;
+            flex-direction: column;
+        }
+
+        form .form-group label {
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        form .form-group input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-group.full-width {
+            flex: 1 1 100%;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            form .form-group {
+                flex: 1 1 100%;
+            }
+
+            table, th, td {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Bienvenue sur notre site de commerce de tojo</h1>
+        <p>Découvrez nos produits et services de qualité.</p>
+    </div>
+    <div class="container">
+        <h1>Vérification des Achats</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom de Produit</th>
+                    <th>Information de Livraison</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                    {% for product in cart_products %}    
+                    produit:<strong>{{product.name}}</strong><br>
+                        {% if product.is_sale %}
+                            prix:{{product.sale_price}} AR
+                        {% else %}
+                            prix:{{product.price}} AR
+                        {% endif %}
+                        quantity:
+                            {% for key,value in quantities.items%}
+                                {% if key == product.id|slugify %}
+                                    {{ value}}
+                                {% endif %}
+                            {% endfor %}
+                    {% endfor %}
+                    <br><br>
+                    Total de tout produit:{{totals}} ar
+                    </td> 
+                    <td>
+                        <form method="post" action="{% url 'billing_info' %}" >
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="{{ shipping_form.shipping_full_name.id_for_label }}">Nom complet</label>
+                                {{ shipping_form.shipping_full_name }}
+                                {% for error in shipping_form.shipping_full_name.errors %}
+                                    <small class="text-danger">{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ shipping_form.shipping_email.id_for_label }}">Email</label>
+                                {{ shipping_form.shipping_email }}
+                                {% for error in shipping_form.shipping_email.errors %}
+                                    <small class="text-danger">{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ shipping_form.shipping_addresse.id_for_label }}">Adresse</label>
+                                {{ shipping_form.shipping_addresse }}
+                                {% for error in shipping_form.shipping_addresse.errors %}
+                                    <small class="text-danger">{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ shipping_form.shipping_city.id_for_label }}">Ville</label>
+                                {{ shipping_form.shipping_city }}
+                                {% for error in shipping_form.shipping_city.errors %}
+                                    <small class="text-danger">{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ shipping_form.shipping_zipcode.id_for_label }}">Code postal</label>
+                                {{ shipping_form.shipping_zipcode }}
+                                {% for error in shipping_form.shipping_zipcode.errors %}
+                                    <small class="text-danger">{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ shipping_form.shipping_numberphone.id_for_label }}">Numéro de téléphone</label>
+                                {{ shipping_form.shipping_numberphone }}
+                                {% for error in shipping_form.shipping_numberphone.errors %}
+                                    <small class="text-danger">{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group full-width">
+                                <button type="submit" class="btn">Continuer</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    
+</body>
+</html>
+{% endblock %}

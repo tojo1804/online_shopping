@@ -1,0 +1,17 @@
+# Ignore files 
+# Python
+*.pyc
+*.pyo
+__pycache__/
+
+# Django
+db.sqlite3
+*.log
+
+# Environnement virtuel
+venv/
+.env
+
+# Autres
+staticfiles/
+*.DS_Store

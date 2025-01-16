@@ -1,0 +1,57 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<style>
+    .main-card {
+        background-color: white; /* Fond blanc */
+        border: 1px solid #ddd; /* Bordure grise légère */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 20px; /* Espacement interne */
+        max-width: 800px; /* Largeur maximale */
+        margin: 20px auto; /* Centre le cadre */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+    }
+    .category-list {
+        display: flex;
+        flex-wrap: wrap; /* Permet un retour à la ligne automatique */
+        gap: 15px; /* Espace entre les éléments */
+        justify-content: center; /* Centre les catégories horizontalement */
+    }
+    .category-item {
+        background-color: #f9f9f9; /* Fond légèrement gris */
+        border: 1px solid #ccc; /* Bordure grise claire */
+        border-radius: 8px; /* Coins arrondis */
+        padding: 10px 15px; /* Espacement interne */
+        text-align: center;
+        transition: background-color 0.3s, transform 0.2s;
+        cursor: pointer;
+    }
+    .category-item:hover {
+        background-color: #007bff; /* Fond bleu au survol */
+        color: white; /* Texte blanc au survol */
+        transform: translateY(-2px); /* Léger déplacement vers le haut */
+    }
+    .category-item a {
+        text-decoration: none; /* Supprime le soulignement du lien */
+        color: inherit; /* Utilise la couleur actuelle (blanc ou noir) */
+        font-weight: bold;
+    }
+</style>
+<div class="content">
+        <h1>CATEGORIES REHETRA</h1>
+        <p>Découvrez nos produits et services de qualité.</p>
+    </div>
+
+<div class="main-card">
+    <h2 class="text-center">Catégories</h2>
+    <div class="category-list">
+        {% for category in categories %}
+        <div class="category-item">
+            <a href="{% url 'category_page' category %}">{{ category }}</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<br><br><br><br><br><br>
+<br><br><br><br><br><br>
+{% endblock %}

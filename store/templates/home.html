@@ -1,0 +1,186 @@
+{% extends 'index.html'  %}
+{% load static %}
+{% block content %}
+ <!-- Contenu principal -->
+ <script type="text/javascript" src="{% static 'js/tojo.js' %}"></script>
+    <div class="content">
+        <h1>Bienvenue sur notre site de commerce de tojo</h1>
+        <p>Découvrez nos produits et services de qualité.</p>
+    </div>
+<!-- Section des produits -->
+<div class="product-section">
+    <!-- Produit 1 -->
+    {% for product in products %}
+        {% if product.is_sale %}
+        <div class="product-card">
+            <img src="{{ product.image.url }}" alt="Produit 1">
+            <h3>{{product.name}}</h3>
+            <!-- <p>Exemple de produit</p> -->
+            <div class="price">
+                <span class="fake-price">{{product.price}} Ar</span>
+                <span class="real-price">{{product.sale_price}} Ar</span>
+            </div>
+            <div class="product-actions">
+                <button class="view-btn"  data-url="{% url 'product_detail' product.id %}" onclick="window.location.href=this.getAttribute('data-url');" aria-label="Voir le produit">
+                <i class="fas fa-eye"></i>
+                </button>
+
+                <button class="add-to-cart-btn" data-url="{% url 'cart_summary' %}" onclick="window.location.href=this.getAttribute('data-url');"  aria-label="Ajouter au panier">
+                    <i class="fas fa-cart-plus"></i>
+                </button>
+            </div>
+        </div>
+        {% else %}
+        <div class="product-card">
+            <img src="{{ product.image.url }}" alt="Produit 1">
+            <h3>{{product.name}}</h3>
+            <p>Exemple de produit</p>
+            <div class="price">
+                <!-- <span class="fake-price">{{product.price}} Ar</span> -->
+                <span class="real-price">{{product.price}} Ar</span>
+            </div>
+            <div class="product-actions">
+                <button class="view-btn" aria-label="Voir le produit">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button class="add-to-cart-btn" aria-label="Ajouter au panier">
+                    <i class="fas fa-cart-plus"></i>
+                </button>
+            </div>
+        </div>
+
+        {% endif %}
+    {% endfor %}
+    <!-- Produit 2 -->
+    <div class="product-card">
+        <img src="https://via.placeholder.com/200" alt="Produit 2">
+        <h3>Produit 2</h3>
+        <p>Exemple de produit</p>
+        <div class="price">
+            <span class="fake-price">1000€</span>
+            <span class="real-price">800€</span>
+        </div>
+        <div class="product-actions">
+            <button class="view-btn" aria-label="Voir le produit">
+                <i class="fas fa-eye"></i>
+            </button>
+            <button class="add-to-cart-btn" aria-label="Ajouter au panier">
+                <i class="fas fa-cart-plus"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Produit 3 -->
+    <div class="product-card">
+        <img src="https://via.placeholder.com/200" alt="Produit 3">
+        <h3>Produit 3</h3>
+        <p>Exemple de produit</p>
+        <div class="price">
+            <span class="fake-price">2000€</span>
+            <span class="real-price">1600€</span>
+        </div>
+        <div class="product-actions">
+            <button class="view-btn" aria-label="Voir le produit">
+                <i class="fas fa-eye"></i>
+            </button>
+            <button class="add-to-cart-btn" aria-label="Ajouter au panier">
+                <i class="fas fa-cart-plus"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Produit 4 -->
+    <div class="product-card">
+        <img src="https://via.placeholder.com/200" alt="Produit 4">
+        <h3>Produit 4</h3>
+        <p>Exemple de produit</p>
+        <div class="price">
+            <span class="fake-price">1200€</span>
+            <span class="real-price">1000€</span>
+        </div>
+        <div class="product-actions">
+            <button class="view-btn" aria-label="Voir le produit">
+                <i class="fas fa-eye"></i>
+            </button>
+            <button class="add-to-cart-btn" aria-label="Ajouter au panier">
+                <i class="fas fa-cart-plus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="product-card">
+        <img src="https://via.placeholder.com/200" alt="Produit 4">
+        <h3>Produit 4</h3>
+        <p>Exemple de produit</p>
+        <div class="price">
+            <span class="fake-price">1200€</span>
+            <span class="real-price">1000€</span>
+        </div>
+        <div class="product-actions">
+            <button class="view-btn" aria-label="Voir le produit">
+                <i class="fas fa-eye"></i>
+            </button>
+            <button class="add-to-cart-btn" aria-label="Ajouter au panier">
+                <i class="fas fa-cart-plus"></i>
+            </button>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="product-card">
+        <img src="https://via.placeholder.com/200" alt="Produit 4">
+        <h3>Produit 4</h3>
+        <p>Exemple de produit</p>
+        <div class="price">
+            <span class="fake-price">1200€</span>
+            <span class="real-price">1000€</span>
+        </div>
+        <div class="product-actions">
+            <button class="view-btn" aria-label="Voir le produit">
+                <i class="fas fa-eye"></i>
+            </button>
+            <button class="add-to-cart-btn" aria-label="Ajouter au panier">
+                <i class="fas fa-cart-plus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="product-card">
+        <img src="https://via.placeholder.com/200" alt="Produit 4">
+        <h3>Produit 4</h3>
+        <p>Exemple de produit</p>
+        <div class="price">
+            <span class="fake-price">1200€</span>
+            <span class="real-price">1000€</span>
+        </div>
+        <div class="product-actions">
+            <button class="view-btn" aria-label="Voir le produit">
+                <i class="fas fa-eye"></i>
+            </button>
+            <button class="add-to-cart-btn" aria-label="Ajouter au panier">
+                <i class="fas fa-cart-plus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="product-card">
+        <img src="https://via.placeholder.com/200" alt="Produit 4">
+        <h3>Produit 4</h3>
+        <p>Exemple de produit</p>
+        <div class="price">
+            <span class="fake-price">1200€</span>
+            <span class="real-price">1000€</span>
+        </div>
+        <div class="product-actions">
+            <button class="view-btn" aria-label="Voir le produit">
+                <i class="fas fa-eye"></i>
+            </button>
+            <button class="add-to-cart-btn" aria-label="Ajouter au panier">
+                <i class="fas fa-cart-plus"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

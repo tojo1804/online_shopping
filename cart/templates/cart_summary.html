@@ -1,0 +1,373 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no ">
+  <title>Tableau avec design responsive</title>
+  <style>
+    /* Corps de la page */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      min-height: 100vh; /* Assurez-vous que la page ait toujours une hauteur minimale de 100% */
+      overflow-y: auto; /* Permet de faire défiler verticalement */
+    }
+    
+    /* Conteneur principal */
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      width: 90%;
+      margin: 20px auto;
+      gap: 20px;
+    }
+
+    /* Tableau */
+    table {
+      border-collapse: collapse;
+      width: 60%;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    table th, table td {
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    /* Colonne image circulaire */
+    .image-cell {
+      text-align: center;
+    }
+
+    .image-cell img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* Colonne description */
+    .description-cell {
+      text-align: left;
+    }
+
+    .description-cell p {
+      font-size: 14px;
+      color: #555;
+    }
+
+    /* Colonne boutons */
+    .button-cell {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .button-cell button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Boutons avec différentes couleurs */
+    .modify-btn {
+      background-color: #4CAF50;
+    }
+
+    .modify-btn:hover {
+      background-color: #45a049;
+    }
+
+    .delete-btn {
+      background-color: #f44336;
+    }
+
+    .delete-btn:hover {
+      background-color: #e53935;
+    }
+
+    .back-btn {
+      background-color: #2196F3;
+    }
+
+    .back-btn:hover {
+      background-color: #1976D2;
+    }
+
+    .home-btn {
+      background-color: #ff9800;
+    }
+
+    .home-btn:hover {
+      background-color: #fb8c00;
+    }
+
+    .quantity-select {
+      padding: 8px;
+      width: 100px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+
+    /* Section droite (cadre avec texte et image) */
+    .right-box {
+      width: 30%;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .right-box img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .right-box h3 {
+      font-size: 18px;
+      color: #333;
+      margin-top: 10px;
+      font-family: 'Georgia', serif;
+    }
+
+    .right-box p {
+      font-size: 14px;
+      color: #777;
+      font-family: 'Arial', sans-serif;
+    }
+
+    /* Design responsive */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      table {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .right-box {
+        width: 100%;
+        margin-top: 20px;
+      }
+    }
+  </style>
+  <script type="text/javascript" src="{% static 'js/tojo.js' %}"></script>
+</head>
+<body>
+  <div class="content">
+        <h1>Decouvrez votre commande</h1>
+        <p>Découvrez nos produits et services de qualité.</p>
+    </div>
+
+<div class="container">
+  <!-- Tableau -->
+  <table>
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+  {% if cart_products %}
+      <!-- Ligne 1 -->
+      {% for product in cart_products %}
+        {% if product.is_sale %}
+          <tr>
+            <td class="image-cell">
+              <img src="{{product.image.url}}" alt="Image produit">
+            </td>
+            <td class="description-cell">
+              <p>{{product.name}} - Description:{{product.description}}</p>
+              <p>prix:{{product.sale_price}}Ar</p>
+
+              <select class="quantity-select" id="select{{product.id}}">
+                
+                {'4':3,'2':4}
+                {% for key,value in quantities.items %}
+                  {% if key == product.id|slugify  %}
+                    <option selected>  {{ value}}</option>
+                  {% endif %}
+                {% endfor %}
+                
+
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">4</option>
+                <option value="5">5</option>
+              </select>
+
+            </td>
+            <td class="button-cell">
+              <button data-index={{product.id}} class="modify-btn update-cart">Modifier</button>
+              <button data-index="{{product.id}}" class="delete-btn delete-product">Supprimer</button>
+              <button class="back-btn" data-url="{% url 'product_detail' product.id %}" onclick="window.location.href=this.getAttribute('data-url')" >Retour</button>
+              <button class="home-btn" data-url="{% url 'home' %}" onclick="window.location.href=this.getAttribute('data-url');" >Home</button>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td class="image-cell">
+              <img src="{{product.image.url}}" alt="Image produit">
+            </td>
+            <td class="description-cell">
+              <p>{{product.name}} - Description:{{product.description}}</p>
+              <p>prix:{{product.price}}Ar</p>
+              <select class="quantity-select">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </td>
+            <td class="button-cell">
+              <button data-index={{product.id}} class="modify-btn update-cart">Modifier</button>
+              <button data-index="{{product.id}}" class="delete-btn delete-product">Supprimer</button>
+              <button class="back-btn" data-url="{% url 'product_detail' product.id %}" onclick="window.location.href=this.getAttribute('data-url')" >Retour</button>
+              <button class="home-btn" data-url="{% url 'home' %}" onclick="window.location.href=this.getAttribute('data-url');" >Home</button>
+
+            </td>
+          </tr>
+        {% endif %}
+
+      {% endfor %}
+
+  {% else %}
+  <strong>there is nothing in your cart 😂😥😥😥😥😥😥😐😐</strong>
+  {% endif %}
+     
+    </tbody>
+  </table>
+
+  <!-- Cadre à droite -->
+  
+  <div class="right-box">
+    <img src="{% static 'assets/logo.png' %}" alt="Image de présentation">
+    <h3>Total des produit que vous avez commandés</h3>
+    <p>TOTAL:{{totals}}Ar</p>
+    <button style="
+        background-color: #007BFF; 
+        color: #fff; 
+        border: none; 
+        border-radius: 5px; 
+        padding: 10px 20px; 
+        font-size: 16px; 
+        cursor: pointer; 
+        transition: background-color 0.3s ease;
+    " 
+    onmouseover="this.style.backgroundColor='#0056b3'"
+    onmouseout="this.style.backgroundColor='#007BFF'" data-url="{% url 'checkout'  %}" onclick="window.location.href=this.getAttribute('data-url')">
+        Checkout
+    </button>
+
+  </div>
+
+</div>
+<script >
+  //update cart
+  //check if button pressed 
+  $(document).on('click','.update-cart',function(e){
+      e.preventDefault();
+      //grabe the product id 
+      var productid = $(this).data('index');
+      $.ajax({
+        type: 'POST',
+        url: '{% url 'cart_update' %}',
+        data:{
+          product_id: $(this).data('index'),
+          product_qty: $('#select' + productid + ' option:selected').text(),
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          action: 'post'
+        },
+        success: function(json){
+          // console.log(json)
+          // document.getElementById('cart_quantity').textContent=json.qty
+          location.reload();
+        },
+        error: function(xhr, errmsg, err){
+
+        }
+
+      });
+
+
+  })
+
+//delete cart 
+   $(document).on('click','.delete-product',function(e){
+      e.preventDefault();
+      //grabe the product id 
+      // var productid = $(this).data('index');
+
+      $.ajax({
+        type: 'POST',
+        url: '{% url 'cart_delete' %}',
+        data:{
+          product_id: $(this).data('index'),
+          
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          action: 'post'
+        },
+        success: function(json){
+          // console.log(json)
+          // document.getElementById('cart_quantity').textContent=json.qty
+          location.reload();
+        },
+        error: function(xhr, errmsg, err){
+
+        }
+
+      });
+
+
+  })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
+{% endblock %}
