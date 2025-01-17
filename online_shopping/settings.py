@@ -12,10 +12,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-q220ofzb*e5mj*9sn@e260ymkx0qfiyrdgnf576+=m3wfdg5d='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # ALLOWED_HOSTS = ['online-shopping-84ba.onrender.com']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['online-shopping-lhnd.onrender.com']
 CSRF_TRUSTED_ORIGINS=[]
 
 
