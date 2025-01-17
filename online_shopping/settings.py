@@ -118,7 +118,8 @@ STATICFILES_DIRS=['static/']
 
 # Activer WhiteNoise pour compresser et mettre en cache les fichiers statiques
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATIC_ROOT=BASE_DIR / 'staticfiles'
+# STATIC_ROOT=BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
